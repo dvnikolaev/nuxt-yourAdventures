@@ -2,6 +2,14 @@ const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
+const myConfig = require("./config/config");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+
+// Подключаем модели
+const User = require("./models/User");
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
@@ -19,6 +27,25 @@ async function start () {
     const builder = new Builder(nuxt)
     await builder.build()
   }
+
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  app.use(
+    require("express-session")({
+      secret: "it is the secret",
+      resave: false,
+      saveUninitialized: false,
+      cookie: { secure: false }
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  passport.use(new LocalStrategy(User.authenticate()));
+  passport.serializeUser(User.serializeUser());
+  passport.deserializeUser(User.deserializeUser());
+
+  // Подключаемся к MongoDB
+  mongoose.connect(myConfig.dbURL, { useNewUrlParser: true });
 
   // Give nuxt middleware to express
   app.use(nuxt.render)
