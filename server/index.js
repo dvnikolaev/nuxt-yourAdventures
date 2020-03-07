@@ -46,8 +46,10 @@ async function start () {
 
   // Подключаем роуты
   let indexRoutes = require("./routes/index");
+  let adventureRoutes = require("./routes/adventure");
 
   app.use(indexRoutes);
+  app.use(adventureRoutes);
 
   // Подключаемся к MongoDB
   mongoose.connect(myConfig.dbURL, { useNewUrlParser: true });
