@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app dense>
+      <DialogAddAdventure />
       <v-spacer></v-spacer>
       <v-tooltip bottom v-if="userIsAuth">
         <template v-slot:activator="{ on }">
@@ -59,6 +60,8 @@
 </template>
 
 <script>
+import DialogAddAdventure from "@/components/Dialogs/DialogAddAdventure";
+
 export default {
   data() {
     return {
@@ -104,6 +107,9 @@ export default {
     logout() {
       this.$store.dispatch("logout");
     }
+  },
+  components: {
+    DialogAddAdventure
   }
 };
 </script>
