@@ -44,6 +44,11 @@ async function start () {
   passport.serializeUser(User.serializeUser());
   passport.deserializeUser(User.deserializeUser());
 
+  // Подключаем роуты
+  let indexRoutes = require("./routes/index");
+
+  app.use(indexRoutes);
+
   // Подключаемся к MongoDB
   mongoose.connect(myConfig.dbURL, { useNewUrlParser: true });
 
