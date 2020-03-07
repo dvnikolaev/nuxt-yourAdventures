@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
       ref: "Adventure"
     }
   ],
-  favoriteAdventure: [
+  favoriteAdventures: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Adventure"
