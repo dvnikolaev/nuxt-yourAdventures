@@ -22,6 +22,10 @@ export const mutations = {
 };
 
 export const actions = {
+  async getInfo({commit}) {
+    let response = await this.$axios.$get("/getInfo");
+    commit("SET_USER", response);
+  },
   // Регистрация пользователя
   async registration({ commit }, data) {
     try {

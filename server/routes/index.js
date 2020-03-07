@@ -3,6 +3,26 @@ const router = express.Router();
 const passport = require("passport");
 const User = require("../models/User");
 
+// Получение информации
+router.get("/getInfo", (req, res) => {
+  if (req.user) {
+    res.send({
+      user: {
+        username: req.user.username,
+        adventures: req.user.adventures,
+        favoriteAdventures: req.user.favoriteAdventures
+      }
+    });
+  } else {
+    res.send({
+      user: {
+        username: '',
+        adventures: [],
+        favoriteAdventures: []
+      }
+    });
+  }
+});
 
 // Регистрация пользователя
 router.post("/registration", async (req, res) => {
@@ -13,7 +33,7 @@ router.post("/registration", async (req, res) => {
   try {
     await User.register(newUser, req.body.password);
     res.status(200).send(null);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     res.end();
   }
@@ -29,21 +49,19 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
       adventures: req.user.adventures,
       favoriteAdventures: req.user.favoriteAdventures
     }
-  })
+  });
 });
 
 router.post("/logout", (req, res) => {
   req.logout();
-  console.log(req.user)
+  console.log(req.user);
   res.send({
     user: {
-      username: '',
+      username: "",
       adventures: [],
       favoriteAdventures: []
     }
-  })
+  });
 });
-
-
 
 module.exports = router;

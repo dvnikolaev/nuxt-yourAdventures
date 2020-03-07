@@ -80,6 +80,9 @@ export default {
       ]
     };
   },
+  created() {
+    this.$store.dispatch('getInfo');
+  },
   computed: {
     userIsAuth() {
       return this.$store.state.user.username ? true : false;
