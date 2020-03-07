@@ -12,42 +12,12 @@
         <span>Выход</span>
       </v-tooltip>
       <div v-else>
-        <v-dialog v-for="(item, i) in navIconInfo" :key="i" width="350">
-          <template v-slot:activator="{ on: dialog }">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on: tooltip }">
-                <v-btn icon v-on="{ ...tooltip, ...dialog }">
-                  <v-icon>{{ item.icon }}</v-icon>
-                </v-btn>
-              </template>
-              <span>{{ item.text }}</span>
-            </v-tooltip>
-          </template>
-          <v-card
-            v-model="item.dialog"
-            class="py-7 px-6 text-center d-flex flex-column"
-          >
-            <h2>{{ item.text }}</h2>
-            <v-text-field
-              outlined
-              hide-details
-              label="Логин"
-              v-model="username"
-              class="mt-2"
-            ></v-text-field>
-            <v-text-field
-              outlined
-              hide-details
-              label="Пароль"
-              type="password"
-              v-model="password"
-              class="mt-2"
-            ></v-text-field>
-            <v-btn @click="item.method" large color="success" class="mt-3">{{
-              item.textButton
-            }}</v-btn>
-          </v-card>
-        </v-dialog>
+        <DialogAuth v-for="(item,i) in navIconInfo" :key="i" 
+        :text="item.text"
+        :icon="item.icon"
+        :textButton="item.textButton"
+        :method="item.method"
+        />
       </div>
     </v-app-bar>
     <v-content>
@@ -61,6 +31,7 @@
 
 <script>
 import DialogAddAdventure from "@/components/Dialogs/DialogAddAdventure";
+import DialogAuth from "@/components/Dialogs/DialogAuth";
 
 export default {
   data() {
@@ -72,13 +43,13 @@ export default {
           text: "Регистрация",
           textButton: "Зарегестрироваться",
           icon: "mdi-account-multiple-plus",
-          method: this.registration
+          method: 'registration'
         },
         {
           text: "Вход",
           textButton: "Войти",
           icon: "mdi-login",
-          method: this.login
+          method: 'login'
         }
       ]
     };
@@ -92,24 +63,13 @@ export default {
     }
   },
   methods: {
-    registration() {
-      this.$store.dispatch("registration", {
-        username: this.username,
-        password: this.password
-      });
-    },
-    login() {
-      this.$store.dispatch("login", {
-        username: this.username,
-        password: this.password
-      });
-    },
     logout() {
       this.$store.dispatch("logout");
     }
   },
   components: {
-    DialogAddAdventure
+    DialogAddAdventure,
+    DialogAuth
   }
 };
 </script>

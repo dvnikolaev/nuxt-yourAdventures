@@ -58,5 +58,8 @@ export const actions = {
   async logout({commit}) {
     let response = await this.$axios.$post("/logout");
     commit("SET_USER", response);
+  },
+  async addAdventure({commit}, data) {
+    
   }
 };
