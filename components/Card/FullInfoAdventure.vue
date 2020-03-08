@@ -16,7 +16,7 @@
     </template>
     <v-card max-width="600">
       <v-img :src="image"></v-img>
-      <v-card-title>{{title}}</v-card-title>
+      <v-card-title>{{ title }}</v-card-title>
       <v-card-text>{{ description }}</v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
@@ -31,7 +31,13 @@
         <v-divider></v-divider>
       </v-card-text>
       <v-card-actions>
-        <v-text-field outlined dense hide-details append-icon="mdi-send" placeholder="Написать..."></v-text-field>
+        <v-text-field
+          outlined
+          dense
+          hide-details
+          append-icon="mdi-send"
+          placeholder="Написать..."
+        ></v-text-field>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -39,6 +45,6 @@
 
 <script>
 export default {
-  props: ["image","title", "description"]
+  props: ["image", "title", "description", "id"]
 };
 </script>
