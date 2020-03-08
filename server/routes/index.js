@@ -6,7 +6,7 @@ const Adventure = require("../models/Adventure");
 
 // Получение информации
 router.get("/getInfo", (req, res) => {
-  Adventure.find().then(adventures => {
+  Adventure.find().populate("comments").then(adventures => {
     if (req.user) {
       res.send({
         user: {
