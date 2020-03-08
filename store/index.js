@@ -3,12 +3,16 @@ export const state = () => ({
     username: "",
     adventures: [],
     favoriteAdventures: []
-  }
+  },
+  adventures: []
 });
 
 export const mutations = {
   SET_USER(state, payload) {
-    state.user = payload.user;
+    state.user = payload;
+  },
+  SET_ADVENTURES(state,payload) {
+    state.adventures = payload
   },
   SET_ERROR_LOGIN(state, error) {
     console.log("SET_ERROR_LOGIN");
@@ -24,7 +28,8 @@ export const mutations = {
 export const actions = {
   async getInfo({commit}) {
     let response = await this.$axios.$get("/getInfo");
-    commit("SET_USER", response);
+    commit("SET_USER", response.user);
+    commit("SET_ADVENTURES", response.adventures)
   },
   // Регистрация пользователя
   async registration({ commit }, data) {
@@ -49,7 +54,7 @@ export const actions = {
         username: data.username,
         password: data.password
       });
-      commit("SET_USER", response);
+      commit("SET_USER", response.user);
       commit("SET_ERROR_LOGIN", '');
     } catch {
       commit("SET_ERROR_LOGIN", 'Неверный пользователь или пароль');
@@ -57,9 +62,13 @@ export const actions = {
   },
   async logout({commit}) {
     let response = await this.$axios.$post("/logout");
-    commit("SET_USER", response);
+    commit("SET_USER", response.user);
   },
   async addAdventure({commit}, data) {
-    
+    this.$axios.$post("/adventure", {
+      title: data.title,
+      description: data.description,
+      image: data.image
+    })
   }
 };
