@@ -29,7 +29,7 @@
         v-model="image"
         class="mt-2"
       ></v-text-field>
-      <v-btn :disabled="buttonIsActive" color="success" class="mt-2">Добавить</v-btn>
+      <v-btn :disabled="buttonIsActive" color="success" class="mt-2" @click="addAdventure">Добавить</v-btn>
     </v-card>
   </v-dialog>
 </template>
