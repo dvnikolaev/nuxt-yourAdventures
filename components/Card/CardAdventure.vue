@@ -1,12 +1,7 @@
 <template>
   <v-card>
-    <FullInfoAdventure
-      :image="image"
-      :title="title"
-      :description="description"
-      :id="id"
-    />
-    <v-card-title>{{ title }}</v-card-title>
+    <FullInfoAdventure :item="item" />
+    <v-card-title>{{ item.title }}</v-card-title>
     <v-card-text>
       <p>{{ modifiedDescription }}</p>
     </v-card-text>
@@ -27,12 +22,12 @@
 import FullInfoAdventure from "./FullInfoAdventure";
 
 export default {
-  props: ["title", "description", "image", "id"],
+  props: ["item"],
   computed: {
     modifiedDescription() {
-      return this.description.length > 100
-        ? this.description.substr(0, 99) + "..."
-        : this.description;
+      return this.item.description.length > 100
+        ? this.item.description.substr(0, 99) + "..."
+        : this.item.description;
     }
   },
   components: {

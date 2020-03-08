@@ -10,12 +10,8 @@
         sm="6"
         xs="12"
       >
-        <CardAdventure
-          :title="item.title"
-          :description="item.description"
-          :image="item.image"
-          :id="item._id"
-        />
+      <CardAdventure 
+        :item="item"/>
       </v-col>
     </v-row>
   </v-container>
