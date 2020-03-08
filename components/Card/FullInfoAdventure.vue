@@ -4,7 +4,7 @@
       <v-hover>
         <template v-slot:default="{ hover }">
           <div style="position: relative">
-            <v-img height="250" :src="image"></v-img>
+            <v-img height="250" :src="item.image"></v-img>
             <v-fade-transition>
               <v-overlay v-if="hover" absolute color="#036358">
                 <v-btn v-on="{ ...dialog }">Подробнее</v-btn>
@@ -15,9 +15,9 @@
       </v-hover>
     </template>
     <v-card max-width="600">
-      <v-img :src="image"></v-img>
-      <v-card-title>{{ title }}</v-card-title>
-      <v-card-text>{{ description }}</v-card-text>
+      <v-img :src="item.image"></v-img>
+      <v-card-title>{{ item.title }}</v-card-title>
+      <v-card-text>{{ item.description }}</v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
         <v-btn icon>
@@ -25,9 +25,9 @@
         </v-btn>
       </v-card-actions>
       <v-divider></v-divider>
-      <v-card-text>
-        <span class="title">test</span>
-        <p>Всё класс</p>
+      <v-card-text v-for="(comment, i) in item.comments" :key="i">
+        <span class="title text--black">{{ comment.author.username }}</span>
+        <p>{{ comment.text }}</p>
         <v-divider></v-divider>
       </v-card-text>
       <v-card-actions>
@@ -36,6 +36,9 @@
           dense
           hide-details
           append-icon="mdi-send"
+          v-model.trim="comment"
+          @click:append="addComment"
+          @keyup.enter="addComment"
           placeholder="Написать..."
         ></v-text-field>
       </v-card-actions>
@@ -45,6 +48,20 @@
 
 <script>
 export default {
-  props: ["image", "title", "description", "id"]
+  props: ["item"],
+  data() {
+    return {
+      comment: ""
+    };
+  },
+  methods: {
+    addComment() {
+      this.$store.dispatch("addComment", {
+        message: this.comment,
+        id: this.item._id
+      });
+      this.comment = '';
+    }
+  }
 };
 </script>
