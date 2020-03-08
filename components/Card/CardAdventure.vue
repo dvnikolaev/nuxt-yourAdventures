@@ -1,9 +1,9 @@
 <template>
-  <v-card max-width="355">
-    <v-img height="250" src="https://img5.goodfon.ru/original/1280x800/5/83/more-bereg-gory-nebo.jpg"></v-img>
-    <v-card-title>Lorem ipsum</v-card-title>
+  <v-card>
+    <v-img height="250" :src="image"></v-img>
+    <v-card-title>{{ title }}</v-card-title>
     <v-card-text>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim autem hic incidunt a cum saepe.</p>
+      <p>{{ modifiedDescription }}</p>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -17,3 +17,16 @@
     </v-card-actions>
   </v-card>
 </template>
+
+<script>
+export default {
+  props: ["title", "description", "image"],
+  computed: {
+    modifiedDescription() {
+      return this.description.length > 100
+        ? this.description.substr(0, 99) + "..."
+        : this.description;
+    }
+  }
+};
+</script>
