@@ -6,7 +6,7 @@ const Adventure = require("../models/Adventure");
 router.post("/adventure", async (req, res) => {
   if (req.user) {
     const newAdventure = new Adventure({
-      title: req.body.tittle,
+      title: req.body.title,
       image: req.body.image,
       description: req.body.description,
       author: {
