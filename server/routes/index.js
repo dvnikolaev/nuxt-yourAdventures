@@ -2,26 +2,31 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const User = require("../models/User");
+const Adventure = require("../models/Adventure");
 
 // Получение информации
 router.get("/getInfo", (req, res) => {
-  if (req.user) {
-    res.send({
-      user: {
-        username: req.user.username,
-        adventures: req.user.adventures,
-        favoriteAdventures: req.user.favoriteAdventures
-      }
-    });
-  } else {
-    res.send({
-      user: {
-        username: '',
-        adventures: [],
-        favoriteAdventures: []
-      }
-    });
-  }
+  Adventure.find().then(adventures => {
+    if (req.user) {
+      res.send({
+        user: {
+          username: req.user.username,
+          adventures: req.user.adventures,
+          favoriteAdventures: req.user.favoriteAdventures
+        },
+        adventures
+      });
+    } else {
+      res.send({
+        user: {
+          username: "",
+          adventures: [],
+          favoriteAdventures: []
+        },
+        adventures
+      });
+    }
+  });
 });
 
 // Регистрация пользователя
