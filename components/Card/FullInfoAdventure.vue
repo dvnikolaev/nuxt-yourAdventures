@@ -16,8 +16,8 @@
     </template>
     <v-card max-width="600">
       <v-img :src="item.image"></v-img>
-      <v-card-title>{{ item.title }}</v-card-title>
-      <v-card-text>{{ item.description }}</v-card-text>
+      <v-card-title class="pl-4">{{ item.title }}</v-card-title>
+      <v-card-text class="pl-4">{{ item.description }}</v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
         <v-btn icon>
@@ -25,7 +25,7 @@
         </v-btn>
       </v-card-actions>
       <v-divider></v-divider>
-      <v-card-text v-for="(comment, i) in item.comments" :key="i">
+      <v-card-text v-for="(comment, i) in item.comments" :key="i" class="pb-0">
         <span class="title text--black">{{ comment.author.username }}</span>
         <p>{{ comment.text }}</p>
         <v-divider></v-divider>
