@@ -25,6 +25,10 @@ export const mutations = {
   },
   SOCKET_newAdventure(state, newAdventure) {
     state.adventures.push(newAdventure);
+  },
+  SOCKET_newComment(state, payload) {
+    let index = state.adventures.findIndex(item => item._id === payload.id);
+    state.adventures[index].comments.push(payload.comment);
   }
 };
 

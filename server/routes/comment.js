@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Adventure = require("../models/Adventure");
 const Comment = require("../models/Comment");
+const { io } = require("../app");
 
 router.post("/comment", async (req, res) => {
   if (req.user) {
@@ -17,7 +18,12 @@ router.post("/comment", async (req, res) => {
       newlyComment = await Comment.create(comment);
       adventure.comments.push(newlyComment);
       adventure.save();
+      io.emit('newComment', {
+        id: req.body.id,
+        comment: newlyComment
+      })
       console.log(`Коммент создан на запись с id - ${req.body.id}\n${comment}`);
+      res.end();
     } catch (err) {
       console.log(err);
       res.end();
