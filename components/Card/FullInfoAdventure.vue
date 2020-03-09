@@ -25,9 +25,9 @@
         </v-btn>
       </v-card-actions>
       <v-divider></v-divider>
-      <v-card-text v-for="(comment, i) in item.comments" :key="i" class="pb-0">
+      <v-card-text v-for="(comment, i) in item.comments" :key="i" class="py-1">
         <span class="title text--black">{{ comment.author.username }}</span>
-        <p>{{ comment.text }}</p>
+        <p class="mb-0">{{ comment.text }}</p>
         <v-divider></v-divider>
       </v-card-text>
       <v-card-actions>
