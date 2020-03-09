@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app dense>
+    <v-app-bar app dense style="z-index: 10">
       <DialogAddAdventure />
       <v-spacer></v-spacer>
       <v-tooltip bottom v-if="userIsAuth">
