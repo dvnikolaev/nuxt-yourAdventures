@@ -22,6 +22,9 @@ export const mutations = {
   },
   CHANGE_DIALOG_SUCCESSFUL_REGISTRATION(state) {
     console.log("CHANGE_DIALOG_SUCCESSFUL_REGISTRATION");
+  },
+  SOCKET_newAdventure(state, newAdventure) {
+    state.adventures.push(newAdventure);
   }
 };
 

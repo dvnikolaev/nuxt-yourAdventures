@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Adventure = require("../models/Adventure");
+const { io } = require("../app");
 
 router.post("/adventure", async (req, res) => {
   if (req.user) {
@@ -15,15 +16,14 @@ router.post("/adventure", async (req, res) => {
       }
     });
 
-    Adventure.create(newAdventure, (err, newlyAdventure) => {
-      if (err) {
-        console.log(err);
-        res.end();
-      } else {
-        console.log(`Элемент добавлен!\n${newlyAdventure}`);
-        res.end();
-      }
-    })
+    try {
+      let newlyAdventure = await Adventure.create(newAdventure);
+
+      io.emit('newAdventure', newlyAdventure);
+    } catch (err) {
+      console.log(err);
+      res.end();
+    }
   } else {
     res.status(401).end();
   }
