@@ -25,11 +25,17 @@
         </v-btn>
       </v-card-actions>
       <v-divider></v-divider>
-      <v-card-text v-for="(comment, i) in item.comments" :key="i" class="py-1">
-        <span class="title text--black">{{ comment.author.username }}</span>
-        <p class="mb-0">{{ comment.text }}</p>
-        <v-divider></v-divider>
-      </v-card-text>
+      <v-list two-liner>
+        <v-list-item v-for="(comment, i) in item.comments" :key="i">
+          <v-list-item-avatar>
+            <v-icon large>mdi-account-tie</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title v-text="comment.author.username"></v-list-item-title>
+            <v-list-item-subtitle v-text="comment.text"></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
       <v-card-actions>
         <v-text-field
           outlined
@@ -60,7 +66,7 @@ export default {
         message: this.comment,
         id: this.item._id
       });
-      this.comment = '';
+      this.comment = "";
     }
   }
 };
