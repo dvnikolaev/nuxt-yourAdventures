@@ -8,9 +8,10 @@
     <v-divider></v-divider>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn icon @click="likeAdventure(item._id)">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
+      <span v-if="item.countLike">{{item.countLike}}</span>
       <v-btn icon>
         <v-icon>mdi-comment</v-icon>
       </v-btn>
@@ -28,6 +29,11 @@ export default {
       return this.item.description.length > 100
         ? this.item.description.substr(0, 99) + "..."
         : this.item.description;
+    }
+  },
+  methods: {
+    likeAdventure(adventureID) {
+      this.$store.dispatch("likeAdventure", { adventureID });
     }
   },
   components: {

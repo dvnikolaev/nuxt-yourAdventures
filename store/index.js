@@ -78,10 +78,15 @@ export const actions = {
       image: data.image
     })
   },
-  async addComment({commit}, data) {
+  addComment({commit}, data) {
     this.$axios.$post("/comment", {
       message: data.message,
       id: data.id
+    })
+  },
+  likeAdventure({commit}, data) {
+    this.$axios.$post("/likeAdventure", {
+      adventureID: data.adventureID
     })
   }
 };
