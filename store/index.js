@@ -11,8 +11,8 @@ export const mutations = {
   SET_USER(state, payload) {
     state.user = payload;
   },
-  SET_ADVENTURES(state,payload) {
-    state.adventures = payload
+  SET_ADVENTURES(state, payload) {
+    state.adventures = payload;
   },
   SET_ERROR_LOGIN(state, error) {
     console.log("SET_ERROR_LOGIN");
@@ -29,14 +29,23 @@ export const mutations = {
   SOCKET_newComment(state, payload) {
     let index = state.adventures.findIndex(item => item._id === payload.id);
     state.adventures[index].comments.push(payload.comment);
+  },
+  SOCKET_likeAdventure(state, payload) {
+    let index = state.adventures.findIndex(item => item._id === payload);
+    state.adventures[index].countLike++;
+  },
+  SOCKET_dislikeAdventure(state, payload) {
+    let index = state.adventures.findIndex(item => item._id === payload);
+    state.adventures[index].countLike--;
   }
 };
 
 export const actions = {
-  async getInfo({commit}) {
+  // Получаем информацию после обновления страницы
+  async getInfo({ commit }) {
     let response = await this.$axios.$get("/getInfo");
     commit("SET_USER", response.user);
-    commit("SET_ADVENTURES", response.adventures)
+    commit("SET_ADVENTURES", response.adventures);
   },
   // Регистрация пользователя
   async registration({ commit }, data) {
@@ -55,6 +64,7 @@ export const actions = {
       );
     }
   },
+  // Вход в систему
   async login({ commit }, data) {
     try {
       let response = await this.$axios.$post("/login", {
@@ -62,31 +72,35 @@ export const actions = {
         password: data.password
       });
       commit("SET_USER", response.user);
-      commit("SET_ERROR_LOGIN", '');
+      commit("SET_ERROR_LOGIN", "");
     } catch {
-      commit("SET_ERROR_LOGIN", 'Неверный пользователь или пароль');
+      commit("SET_ERROR_LOGIN", "Неверный пользователь или пароль");
     }
   },
-  async logout({commit}) {
+  // Выход из системы
+  async logout({ commit }) {
     let response = await this.$axios.$post("/logout");
     commit("SET_USER", response.user);
   },
-  async addAdventure({commit}, data) {
+  // Добавление записи
+  async addAdventure({ commit }, data) {
     this.$axios.$post("/adventure", {
       title: data.title,
       description: data.description,
       image: data.image
-    })
+    });
   },
-  addComment({commit}, data) {
+  // Добавление коментария
+  addComment({ commit }, data) {
     this.$axios.$post("/comment", {
       message: data.message,
       id: data.id
-    })
+    });
   },
-  likeAdventure({commit}, data) {
+  // Лайк / Дизлайк записи
+  likeAdventure({ commit }, data) {
     this.$axios.$post("/likeAdventure", {
       adventureID: data.adventureID
-    })
+    });
   }
 };

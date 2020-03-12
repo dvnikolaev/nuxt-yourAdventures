@@ -4,6 +4,8 @@ const User = require("../models/User");
 const Adventure = require("../models/Adventure");
 const { io } = require("../app");
 
+
+// Добавляем запись
 router.post("/adventure", async (req, res) => {
   if (req.user) {
     const newAdventure = new Adventure({
@@ -20,7 +22,7 @@ router.post("/adventure", async (req, res) => {
     try {
       let newlyAdventure = await Adventure.create(newAdventure);
 
-      io.emit('newAdventure', newlyAdventure);
+      io.emit("newAdventure", newlyAdventure);
       res.end();
     } catch (err) {
       console.log(err);
@@ -31,26 +33,31 @@ router.post("/adventure", async (req, res) => {
   }
 });
 
+// Лайк / Дизлайк запись
 router.post("/likeAdventure", async (req, res) => {
   if (req.user) {
     try {
       let adventure = await Adventure.findById(req.body.adventureID);
       let user = await User.findById(req.user._id);
-      let indexAdventure = await user.favoriteAdventures.findIndex(item => item == req.body.adventureID);
+      let indexAdventure = await user.favoriteAdventures.findIndex(
+        item => item == req.body.adventureID
+      );
 
       if (indexAdventure > -1) {
         user.favoriteAdventures.splice(indexAdventure, 1);
         user.save();
         adventure.countLike--;
         adventure.save();
+        io.emit("dislikeAdventure", req.body.adventureID);
       } else {
         user.favoriteAdventures.push(req.body.adventureID);
         user.save();
         adventure.countLike++;
         adventure.save();
+        io.emit("likeAdventure", req.body.adventureID);
       }
       res.end();
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       res.end();
     }
