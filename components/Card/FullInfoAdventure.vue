@@ -21,9 +21,11 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-btn icon @click="likeAdventure(item._id)">
-          <v-icon>mdi-heart</v-icon>
+          <v-icon :color="adventureIsFavorite ? 'red' : 'grey'"
+            >mdi-heart</v-icon
+          >
         </v-btn>
-        <span v-if="item.countLike">{{item.countLike}}</span>
+        <span v-if="item.countLike">{{ item.countLike }}</span>
       </v-card-actions>
       <v-divider></v-divider>
       <v-list two-liner>
@@ -32,7 +34,9 @@
             <v-icon large>mdi-account-tie</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title v-text="comment.author.username"></v-list-item-title>
+            <v-list-item-title
+              v-text="comment.author.username"
+            ></v-list-item-title>
             <v-list-item-subtitle v-text="comment.text"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -71,6 +75,11 @@ export default {
     },
     likeAdventure(adventureID) {
       this.$store.dispatch("likeAdventure", { adventureID });
+    }
+  },
+  computed: {
+    adventureIsFavorite() {
+      return this.$store.getters.adventureIsFavorite(this.item._id);
     }
   }
 };

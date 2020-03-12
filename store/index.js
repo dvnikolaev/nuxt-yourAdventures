@@ -33,10 +33,15 @@ export const mutations = {
   SOCKET_likeAdventure(state, payload) {
     let index = state.adventures.findIndex(item => item._id === payload);
     state.adventures[index].countLike++;
+    state.user.favoriteAdventures.push(payload);
   },
   SOCKET_dislikeAdventure(state, payload) {
     let index = state.adventures.findIndex(item => item._id === payload);
+    let indexUser = state.user.favoriteAdventures.findIndex(
+      item => item === payload
+    );
     state.adventures[index].countLike--;
+    state.user.favoriteAdventures.splice(indexUser, 1);
   }
 };
 
@@ -104,3 +109,9 @@ export const actions = {
     });
   }
 };
+
+export const getters = {
+  adventureIsFavorite: state => id => {
+    return state.user.favoriteAdventures.find(item => item === id) ? true : false;
+  }
+}

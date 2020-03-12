@@ -9,9 +9,9 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn icon @click="likeAdventure(item._id)">
-        <v-icon>mdi-heart</v-icon>
+        <v-icon :color="adventureIsFavorite ? 'red' : '#757575'">mdi-heart</v-icon>
       </v-btn>
-      <span v-if="item.countLike">{{item.countLike}}</span>
+      <span v-if="item.countLike">{{ item.countLike }}</span>
       <v-btn icon>
         <v-icon>mdi-comment</v-icon>
       </v-btn>
@@ -29,6 +29,9 @@ export default {
       return this.item.description.length > 100
         ? this.item.description.substr(0, 99) + "..."
         : this.item.description;
+    },
+    adventureIsFavorite() {
+      return this.$store.getters.adventureIsFavorite(this.item._id);
     }
   },
   methods: {
