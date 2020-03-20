@@ -21,6 +21,9 @@
 import CardAdventure from "@/components/Card/CardAdventure";
 
 export default {
+  async fetch({store}) {
+    await store.dispatch("getAdventures");
+  },
   computed: {
     adventures() {
       return this.$store.state.adventures;
