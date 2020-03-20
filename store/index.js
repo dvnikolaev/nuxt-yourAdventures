@@ -46,11 +46,16 @@ export const mutations = {
 };
 
 export const actions = {
-  // Получаем информацию после обновления страницы
-  async getInfo({ commit }) {
-    let response = await this.$axios.$get("/getInfo");
-    commit("SET_USER", response.user);
-    commit("SET_ADVENTURES", response.adventures);
+  nuxtServerInit({ commit }, { req }) {
+    if (req.user) {
+      console.log(req);
+      commit('SET_USER', req.user)
+    }
+  },
+  // Получаем записи
+  async getAdventures({commit}) {
+    let adventures = await this.$axios.$get("/getadventures");
+    commit("SET_ADVENTURES", adventures);
   },
   // Регистрация пользователя
   async registration({ commit }, data) {
