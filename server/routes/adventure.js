@@ -5,6 +5,17 @@ const Adventure = require("../models/Adventure");
 const { io } = require("../app");
 
 
+// Получаем записи
+router.get("/getadventures", async (req, res) => {
+  try {
+    let adventures = await Adventure.find().populate("comments");
+    res.send(adventures);
+  } catch (err) {
+    console.log(err);
+    res.end();
+  }
+});
+
 // Добавляем запись
 router.post("/adventure", async (req, res) => {
   if (req.user) {

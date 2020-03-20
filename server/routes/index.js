@@ -4,31 +4,6 @@ const passport = require("passport");
 const User = require("../models/User");
 const Adventure = require("../models/Adventure");
 
-// Получение информации
-router.get("/getInfo", (req, res) => {
-  Adventure.find().populate("comments").then(adventures => {
-    if (req.user) {
-      res.send({
-        user: {
-          username: req.user.username,
-          adventures: req.user.adventures,
-          favoriteAdventures: req.user.favoriteAdventures
-        },
-        adventures
-      });
-    } else {
-      res.send({
-        user: {
-          username: "",
-          adventures: [],
-          favoriteAdventures: []
-        },
-        adventures
-      });
-    }
-  });
-});
-
 // Регистрация пользователя
 router.post("/registration", async (req, res) => {
   let newUser = new User({
@@ -46,8 +21,7 @@ router.post("/registration", async (req, res) => {
 
 // Авторизация пользователя
 router.post("/login", passport.authenticate("local"), (req, res) => {
-  console.log(`Вход произошел!`);
-  console.log(req.user);
+  console.log(`${req.user.username} залогинился!`);
   res.send({
     user: {
       username: req.user.username,
