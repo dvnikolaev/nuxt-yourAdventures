@@ -48,12 +48,17 @@ export const mutations = {
 export const actions = {
   nuxtServerInit({ commit }, { req }) {
     if (req.user) {
-      console.log(req);
-      commit('SET_USER', req.user)
+      let user = {
+        id: req.user._id,
+        username: req.user.username,
+        adventures: req.user.adventures,
+        favoriteAdventures: req.user.favoriteAdventures
+      };
+      commit("SET_USER", user);
     }
   },
   // Получаем записи
-  async getAdventures({commit}) {
+  async getAdventures({ commit }) {
     let adventures = await this.$axios.$get("/getadventures");
     commit("SET_ADVENTURES", adventures);
   },
@@ -117,6 +122,13 @@ export const actions = {
 
 export const getters = {
   adventureIsFavorite: state => id => {
-    return state.user.favoriteAdventures.find(item => item === id) ? true : false;
+    return state.user.favoriteAdventures.find(item => item === id)
+      ? true
+      : false;
+  },
+  myAdventures: state => {
+    return state.adventures.filter(item => {
+      return item.author.id == state.user.id;
+    });
   }
-}
+};
