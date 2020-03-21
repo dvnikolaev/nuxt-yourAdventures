@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const User = require("../models/User");
-const Adventure = require("../models/Adventure");
 
 // Регистрация пользователя
 router.post("/registration", async (req, res) => {
@@ -24,6 +23,7 @@ router.post("/login", passport.authenticate("local"), (req, res) => {
   console.log(`${req.user.username} залогинился!`);
   res.send({
     user: {
+      id: req.user._id,
       username: req.user.username,
       adventures: req.user.adventures,
       favoriteAdventures: req.user.favoriteAdventures
