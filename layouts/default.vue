@@ -4,7 +4,7 @@
       <DialogAddAdventure />
       <v-spacer></v-spacer>
       <div v-if="userIsAuth">
-        <a href="/">{{getUser}}</a>
+        <nuxt-link :to="`/profile/${getUser}`">{{getUser}}</nuxt-link>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on" @click="logout">
@@ -70,6 +70,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
+      this.$router.replace({path: '/adventures'})
     }
   },
   components: {
