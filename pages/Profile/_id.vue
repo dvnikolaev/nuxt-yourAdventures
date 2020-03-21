@@ -4,8 +4,22 @@
     <nuxt-link to="/adventures">К записям</nuxt-link>
     <v-row>
       <v-col
-        v-for="item in myAdventures"
-        :key="item._id"
+        v-for="(item,i) in myAdventures"
+        :key="i"
+        cols="12"
+        lg="3"
+        md="4"
+        sm="6"
+        xs="12"
+      >
+        <CardAdventure :item="item" />
+      </v-col>
+    </v-row>
+    <h2>Понравившиеся записи:</h2>
+    <v-row>
+      <v-col
+        v-for="(item,i) in myFavoriteAdventures"
+        :key="i"
         cols="12"
         lg="3"
         md="4"
@@ -39,6 +53,9 @@ export default {
   computed: {
     myAdventures() {
       return this.$store.getters.myAdventures;
+    },
+    myFavoriteAdventures() {
+      return this.$store.getters.myFavoriteAdventures;
     }
   },
   components: {

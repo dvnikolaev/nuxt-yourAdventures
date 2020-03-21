@@ -130,5 +130,10 @@ export const getters = {
     return state.adventures.filter(item => {
       return item.author.id == state.user.id;
     });
+  },
+  myFavoriteAdventures: state => {
+    return state.adventures.filter(adventure => {
+      return state.user.favoriteAdventures.find(item => adventure._id === item)
+    })
   }
 };
