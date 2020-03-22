@@ -4,7 +4,7 @@
       <DialogAddAdventure />
       <v-spacer></v-spacer>
       <div v-if="userIsAuth">
-        <nuxt-link :to="`/profile/${getUser}`">{{getUser}}</nuxt-link>
+        <nuxt-link to="/profile">{{getUser}}</nuxt-link>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on" @click="logout">

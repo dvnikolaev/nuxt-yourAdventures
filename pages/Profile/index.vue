@@ -2,7 +2,8 @@
   <v-container fluid>
     <h2>Мои записи:</h2>
     <nuxt-link to="/adventures">К записям</nuxt-link>
-    <v-row>
+    <p v-if="!myAdventures.length">У вас пока нет добавленных записей</p>
+    <v-row v-else>
       <v-col
         v-for="(item,i) in myAdventures"
         :key="i"
@@ -39,10 +40,10 @@ export default {
   async fetch({ store }) {
     await store.dispatch("getAdventures");
   },
-  middleware({ redirect, req, params }) {
+  middleware({ redirect, req, store}) {
     if (process.server) {
       if (req.user) {
-        if (params.id !== req.user.username) {
+        if (store.state.user.id !== req.user._id) {
           return redirect("/adventures");
         }
       } else {
