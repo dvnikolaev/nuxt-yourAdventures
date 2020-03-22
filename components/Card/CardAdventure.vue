@@ -9,10 +9,12 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn icon @click="likeAdventure(item._id)">
-        <v-icon :color="adventureIsFavorite ? 'red' : '#757575'">mdi-heart</v-icon>
+        <v-icon :color="adventureIsFavorite ? 'red' : '#757575'"
+          >mdi-heart</v-icon
+        >
       </v-btn>
-      <span v-if="item.countLike">{{ item.countLike }}</span>
-      <CommentButton :item="item"/>
+      <span v-if="item.countLike" class="mr-2">{{ item.countLike }}</span>
+      <CommentButton :item="item" />
     </v-card-actions>
   </v-card>
 </template>

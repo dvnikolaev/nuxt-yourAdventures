@@ -126,6 +126,9 @@ export const getters = {
       ? true
       : false;
   },
+  countComments: state => id => {
+    return state.adventures.find(item => item._id === id).comments.length;
+  },
   myAdventures: state => {
     return state.adventures.filter(item => {
       return item.author.id == state.user.id;

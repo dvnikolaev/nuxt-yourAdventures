@@ -44,12 +44,14 @@
 export default {
   props: {
     item: Object,
-    focusComment: Boolean
+    focusComment: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
-      comment: "",
-      focus: true
+      comment: ""
     };
   },
   methods: {
