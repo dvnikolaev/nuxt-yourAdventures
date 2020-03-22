@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <FullInfoAdventure :item="item" />
+    <DetailButton :item="item" />
     <v-card-title>{{ item.title }}</v-card-title>
     <v-card-text>
       <p>{{ modifiedDescription }}</p>
@@ -12,15 +12,14 @@
         <v-icon :color="adventureIsFavorite ? 'red' : '#757575'">mdi-heart</v-icon>
       </v-btn>
       <span v-if="item.countLike">{{ item.countLike }}</span>
-      <v-btn icon>
-        <v-icon>mdi-comment</v-icon>
-      </v-btn>
+      <CommentButton :item="item"/>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import FullInfoAdventure from "./FullInfoAdventure";
+import DetailButton from "./DetailButton";
+import CommentButton from "./CommentButton";
 
 export default {
   props: ["item"],
@@ -40,7 +39,8 @@ export default {
     }
   },
   components: {
-    FullInfoAdventure
+    DetailButton,
+    CommentButton
   }
 };
 </script>
