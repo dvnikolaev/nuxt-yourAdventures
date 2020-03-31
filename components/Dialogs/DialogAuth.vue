@@ -27,9 +27,14 @@
         v-model="password"
         class="mt-2"
       ></v-text-field>
-      <v-btn @click="localMethod" large color="success" class="mt-3">{{
-        textButton
-      }}</v-btn>
+      <v-btn
+        @click="localMethod"
+        :disabled="fieldsIsEmpty"
+        large
+        color="success"
+        class="mt-3"
+        >{{ textButton }}</v-btn
+      >
     </v-card>
   </v-dialog>
 </template>
@@ -39,13 +44,16 @@ export default {
   props: ["text", "textButton", "icon", "method"],
   data() {
     return {
-      username: '',
-      password: ''
-    }
+      username: "",
+      password: ""
+    };
   },
   computed: {
     localMethod() {
-      return this.method === 'login' ? this.login : this.registration
+      return this.method === "login" ? this.login : this.registration;
+    },
+    fieldsIsEmpty() {
+      return this.username && this.password ? false : true;
     }
   },
   methods: {

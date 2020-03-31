@@ -88,8 +88,10 @@ export const actions = {
       });
       commit("SET_USER", response.user);
       commit("SET_ERROR_LOGIN", "");
-    } catch {
-      commit("SET_ERROR_LOGIN", "Неверный пользователь или пароль");
+    } catch(err) {
+      err.request.status == 401
+          ? commit("SET_ERROR_LOGIN", "Неверный пользователь или пароль")
+          : commit("SET_ERROR_LOGIN", "Неудалось войти в систему, попробуйте позже")
     }
   },
   // Выход из системы
