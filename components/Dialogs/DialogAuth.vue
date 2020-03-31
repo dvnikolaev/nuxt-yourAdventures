@@ -1,5 +1,5 @@
 <template>
-  <v-dialog width="350">
+  <v-dialog width="350" v-model="dialogAuth">
     <template v-slot:activator="{ on: dialog }">
       <v-tooltip bottom>
         <template v-slot:activator="{ on: tooltip }">
@@ -27,6 +27,7 @@
         v-model="password"
         class="mt-2"
       ></v-text-field>
+      <p v-if="errText" class="mb-0 mt-1 text-left red--text">{{errText}}</p>
       <v-btn
         @click="localMethod"
         :disabled="fieldsIsEmpty"
@@ -54,6 +55,17 @@ export default {
     },
     fieldsIsEmpty() {
       return this.username && this.password ? false : true;
+    },
+    errText() {
+      return this.$store.state.errorLoginSignup;
+    },
+    dialogAuth: {
+      get() {
+        return this.$store.state.dialogAuth;
+      },
+      set() {
+        this.$store.commit('CLOSE_DIALOG_AUTH');
+      }
     }
   },
   methods: {

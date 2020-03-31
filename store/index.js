@@ -4,6 +4,8 @@ export const state = () => ({
     adventures: [],
     favoriteAdventures: []
   },
+  dialogAuth: false,
+  errorLoginSignup: "",
   adventures: []
 });
 
@@ -14,11 +16,12 @@ export const mutations = {
   SET_ADVENTURES(state, payload) {
     state.adventures = payload;
   },
-  SET_ERROR_LOGIN(state, error) {
-    console.log("SET_ERROR_LOGIN");
+  SET_ERROR_LOGIN_SIGNUP(state, error) {
+    state.errorLoginSignup = error;
   },
-  SET_ERROR_REGISTER(state, error) {
-    console.log("SET_ERROR_REGISTER");
+  CLOSE_DIALOG_AUTH(state) {
+    state.dialogAuth = false;
+    state.errorLoginSignup = "";
   },
   CHANGE_DIALOG_SUCCESSFUL_REGISTRATION(state) {
     console.log("CHANGE_DIALOG_SUCCESSFUL_REGISTRATION");
@@ -65,18 +68,14 @@ export const actions = {
   // Регистрация пользователя
   async registration({ commit }, data) {
     try {
-      let error = await this.$axios.$post("/registration", {
+      await this.$axios.$post("/registration", {
         username: data.username,
         password: data.password
       });
-      error
-        ? commit("SET_ERROR_REGISTER", error)
-        : commit("CHANGE_DIALOG_SUCCESSFUL_REGISTRATION");
-    } catch {
-      commit(
-        "SET_ERROR_REGISTER",
-        "Не удалось зарегистрироваться, попробуйте позже!"
-      );
+    } catch (err) {
+      err.request.status == 401
+        ? commit("SET_ERROR_LOGIN_SIGNUP", "Такой пользователь уже существует")
+        : commit("SET_ERROR_LOGIN_SIGNUP","Не удалось зарегистрироваться, попробуйте позже!");
     }
   },
   // Вход в систему
@@ -87,11 +86,14 @@ export const actions = {
         password: data.password
       });
       commit("SET_USER", response.user);
-      commit("SET_ERROR_LOGIN", "");
-    } catch(err) {
+      commit("SET_ERROR_LOGIN_SIGNUP", "");
+    } catch (err) {
       err.request.status == 401
-          ? commit("SET_ERROR_LOGIN", "Неверный пользователь или пароль")
-          : commit("SET_ERROR_LOGIN", "Неудалось войти в систему, попробуйте позже")
+        ? commit("SET_ERROR_LOGIN_SIGNUP", "Неверный пользователь или пароль")
+        : commit(
+            "SET_ERROR_LOGIN_SIGNUP",
+            "Неудалось войти в систему, попробуйте позже"
+          );
     }
   },
   // Выход из системы
@@ -138,7 +140,7 @@ export const getters = {
   },
   myFavoriteAdventures: state => {
     return state.adventures.filter(adventure => {
-      return state.user.favoriteAdventures.find(item => adventure._id === item)
-    })
+      return state.user.favoriteAdventures.find(item => adventure._id === item);
+    });
   }
 };

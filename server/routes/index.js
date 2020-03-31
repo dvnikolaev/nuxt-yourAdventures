@@ -14,7 +14,7 @@ router.post("/registration", async (req, res) => {
     res.status(200).send(null);
   } catch (err) {
     console.log(err);
-    res.end();
+    res.sendStatus(401);
   }
 });
 
