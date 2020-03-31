@@ -6,6 +6,7 @@ export const state = () => ({
   },
   dialogAuth: false,
   errorLoginSignup: "",
+  errorAddAdventure: "",
   adventures: []
 });
 
@@ -18,6 +19,9 @@ export const mutations = {
   },
   SET_ERROR_LOGIN_SIGNUP(state, error) {
     state.errorLoginSignup = error;
+  },
+  SET_ERROR_ADD_ADVENTURE(state, error) {
+    state.errorAddAdventure = error;
   },
   CLOSE_DIALOG_AUTH(state) {
     state.dialogAuth = false;
@@ -75,7 +79,10 @@ export const actions = {
     } catch (err) {
       err.request.status == 401
         ? commit("SET_ERROR_LOGIN_SIGNUP", "Такой пользователь уже существует")
-        : commit("SET_ERROR_LOGIN_SIGNUP","Не удалось зарегистрироваться, попробуйте позже!");
+        : commit(
+            "SET_ERROR_LOGIN_SIGNUP",
+            "Не удалось зарегистрироваться, попробуйте позже!"
+          );
     }
   },
   // Вход в систему
@@ -103,11 +110,20 @@ export const actions = {
   },
   // Добавление записи
   async addAdventure({ commit }, data) {
-    this.$axios.$post("/adventure", {
-      title: data.title,
-      description: data.description,
-      image: data.image
-    });
+    try {
+      await this.$axios.$post("/adventure", {
+        title: data.title,
+        description: data.description,
+        image: data.image
+      });
+    } catch (err) {
+      err.request.status == 401
+        ? commit("SET_ERROR_ADD_ADVENTURE", `Чтобы добавить запись, необходимо войти в систему`)
+        : commit(
+            "SET_ERROR_ADD_ADVENTURE",
+            "Неудалось добавить запись, попробуйте позже"
+          );
+    }
   },
   // Добавление коментария
   addComment({ commit }, data) {

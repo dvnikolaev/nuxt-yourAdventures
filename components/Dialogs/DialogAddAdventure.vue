@@ -32,6 +32,7 @@
         v-model.trim="image"
         class="mt-2"
       ></v-text-field>
+      <p v-if="errText" class="mb-0 mt-1 text-left red--text">{{errText}}</p>
       <v-btn
         :disabled="buttonIsDiable"
         color="success"
@@ -57,6 +58,9 @@ export default {
       return this.title.trim() && this.description.trim() && this.image.trim()
         ? false
         : true;
+    },
+    errText() {
+      return this.$store.state.errorAddAdventure;
     }
   },
   methods: {

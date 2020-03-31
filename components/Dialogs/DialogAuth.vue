@@ -27,6 +27,7 @@
         v-model="password"
         class="mt-2"
       ></v-text-field>
+      <p class="caption text-left mb-0">Вы можете использовать пару логин / пароль: test / test</p>
       <p v-if="errText" class="mb-0 mt-1 text-left red--text">{{errText}}</p>
       <v-btn
         @click="localMethod"
